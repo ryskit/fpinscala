@@ -11,16 +11,6 @@ object GettingStarted {
     println(isSorted(Array(1, 2, 3, 4, 5), ordered))
   }
 
-  def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
-    def loop(n: Int): Boolean = {
-      if (n == 0) true
-      else if (ordered(as(n - 1), as(n))) loop(n - 1)
-      else false
-    }
-
-    loop(as.length - 1)
-  }
-
   def factorial(n: Int): Int = {
     def go(n: Int, acc: Int): Int =
       if (n <= 0) acc
