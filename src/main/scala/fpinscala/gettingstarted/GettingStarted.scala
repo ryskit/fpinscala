@@ -54,7 +54,7 @@ object GettingStarted {
     def loop(a: Seq[A]): Boolean = {
       a match {
         case Seq(h1, h2, tails @ _*) =>
-          if (ordered(h1, h2)) loop(tails)
+          if (ordered(h1, h2)) loop(h2 +: tails)
           else false
         case _ => true
       }
