@@ -34,6 +34,9 @@ object GettingStarted {
     loop(0)
   }
 
+  // B型を受け取ってC型を返す関数、を返す関数
+  def partial1[A, B, C](a: A, f: (A, B) => C): B => C = (b: B) => f(a, b)
+
   // EXERCISE2.1
   def fib(n: Int): Int = {
     @tailrec
@@ -58,4 +61,20 @@ object GettingStarted {
     }
     loop(as)
   }
+
+  // EXERCISE2.3
+  // 与えられたシグネチャ
+  // def curry[A, B, C](f: (A, B) => C): A => (B => C) = ???
+
+  // EXERCISE2.3 ANSWER
+  // Aを受け取って、Bを受け取って、Cを返す関数を定義してあげれば良い
+  def curry[A, B, C](f: (A, B) => C): A => B => C = (a: A) => (b: B) => f(a, b)
+
+  // DEMO:
+  // val sum = (a: Int, b: Int) => a + b
+  // val c = curry(sum)
+  // val c1 = c(1)
+  // println(c1(2))
+  // 3
+
 }
