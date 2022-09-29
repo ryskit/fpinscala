@@ -91,4 +91,15 @@ object GettingStarted {
   // or val uc= uncurry((a: Int) => (b: Int) => a + b)
   // println(uc(1, 2))
 
+  // EXERCISE2.5
+  // 与えられたシグネチャ
+  // def compose[A, B, C](f: B => C, g: A => B): A => C = ???
+
+  // EXERCISE2.5 ANSWER
+  def compose[A, B, C](f: B => C, g: A => B): A => C = (a: A) => f(g(a))
+
+  // DEMO
+  // val f = (x: Double) => math.Pi / 2 - x
+  // val cos = f andThen math.sin
+  // println(cos(2.0))
 }
