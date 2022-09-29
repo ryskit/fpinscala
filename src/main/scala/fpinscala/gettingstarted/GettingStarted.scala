@@ -77,4 +77,18 @@ object GettingStarted {
   // println(c1(2))
   // 3
 
+  // EXERCISE2.4
+  // 与えられたシグネチャ
+  // def uncurry[A, B, C](f: A => B => C): (A, B) => C = ???
+
+  // EXERCISE2.4 ANSWER
+  // 型の通りに素直に定義してあげれば良い
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a: A, b: B) => f(a)(b)
+
+  // DEMO
+  // val sum2 = (a: Int) => (b: Int) => a + b
+  // val uc = uncurry(sum2)
+  // or val uc= uncurry((a: Int) => (b: Int) => a + b)
+  // println(uc(1, 2))
+
 }
