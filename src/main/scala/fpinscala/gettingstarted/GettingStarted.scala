@@ -68,7 +68,10 @@ object GettingStarted {
 
   // EXERCISE2.3 ANSWER
   // Aを受け取って、Bを受け取って、Cを返す関数を定義してあげれば良い
-  def curry[A, B, C](f: (A, B) => C): A => B => C = (a: A) => (b: B) => f(a, b)
+  def curry[A, B, C](f: (A, B) => C): A => B => C = (a: A) => {
+    val c = (b: B) => f(a, b)
+    c
+  }
 
   // DEMO:
   // val sum = (a: Int, b: Int) => a + b
@@ -83,7 +86,11 @@ object GettingStarted {
 
   // EXERCISE2.4 ANSWER
   // 型の通りに素直に定義してあげれば良い
-  def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a: A, b: B) => f(a)(b)
+//  def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a: A, b: B) => f(a)(b)
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C = {
+    val uc = (a: A, b: B) => f(a)(b)
+    uc
+  }
 
   // DEMO
   // val sum2 = (a: Int) => (b: Int) => a + b
