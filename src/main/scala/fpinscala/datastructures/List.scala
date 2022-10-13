@@ -1,5 +1,7 @@
 package fpinscala.datastructures
 
+import scala.collection.mutable.ListBuffer
+
 sealed trait List[+A]
 case object Nil                             extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]
@@ -80,10 +82,24 @@ object List {
   // 前からListを計算していくしかないため、一定時間では実装できない。（つまり、Listの要素が多ければ多いほど処理に時間がかかる）
   def init[A](l: List[A]): List[A] =
     l match {
-      case Nil              => Nil
+      case Nil              => throw new UnsupportedOperationException("init of empty list") // Nilでも良さそう
       case Cons(_, Nil)     => Nil
       case Cons(head, tail) => Cons(head, init(tail))
     }
+
+  def init2[A](l: List[A]): List[A] = {
+    val acc = new ListBuffer[A]()
+    @scala.annotation.tailrec
+    def go(list: List[A]): List[A] =
+      list match {
+        case Nil          => throw new UnsupportedOperationException("init of empty list") // Nilでも良さそう
+        case Cons(_, Nil) => List(acc.toList: _*)
+        case Cons(head, tail) =>
+          acc.addOne(head)
+          go(tail)
+      }
+    go(l)
+  }
 
 }
 
