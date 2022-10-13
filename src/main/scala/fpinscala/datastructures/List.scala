@@ -101,6 +101,32 @@ object List {
     go(l)
   }
 
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    as match {
+      case Nil         => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
+  def product2(ns: List[Double]) =
+    foldRight(ns, 1.0)(_ * _)
+
+  // List(1.0, 2.0, 3.0)
+  // f(1.0, foldRight(List(2.0, 3.0), 1.0)(f))
+  // f(1.0, f(2.0, foldRight(List(3.0), 1.0)(f)))
+  // f(1.0, f(2.0, f(3.0, foldRight(Nil, 1.0)(f)))
+  // f(1.0, f(2.0, f(3.0, 1.0)))
+  // f(1.0, f(2.0, 3.0 * 1.0))
+  // f(1.0, f(2.0, 3.0))
+  // f(1.0, 6.0)
+  // 6.0
+
+  // EXERCISE3.7
+  // 1) foldRightを使って実装されたproductは、0.0を検出した場合に、直ちに再帰を中止して0.0を返せるか。 その理由を説明せよ。
+  // 2) 大きなリストでfoldRightを呼び出した場合の短絡の仕組みについて検討せよ。
+  //
+  // 1) ただちに再帰を中止して0.0を返せない。
+  // 理由は、fが実行される前にすべての要素を辿ってしまうため。
+  // 2) このfoldRightは末尾再帰で実装されていないため、コールスタックが溢れてスタックオーバーフローが発生すると思う
 }
 
 object Main extends App {
