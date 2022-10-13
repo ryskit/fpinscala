@@ -71,6 +71,20 @@ object List {
       case list                  => list
     }
 
+  // EXERCISE3.6
+  // Listの末尾を除くすべての要素で構成されたListを返すinit関数を実装せよ。
+  // List(1, 2, 3, 4)が与えられた場合、initはList(1, 2, 3)を返す。
+  // この関数をtailのように一定時時間で実装できないのはなぜか？
+  //
+  // Ans. Listは前から後ろに向けての単一方向のリストの構造のため、init関数のような末尾を削除する操作を行いたい場合、
+  // 前からListを計算していくしかないため、一定時間では実装できない。（つまり、Listの要素が多ければ多いほど処理に時間がかかる）
+  def init[A](l: List[A]): List[A] =
+    l match {
+      case Nil              => Nil
+      case Cons(_, Nil)     => Nil
+      case Cons(head, tail) => Cons(head, init(tail))
+    }
+
 }
 
 object Main extends App {

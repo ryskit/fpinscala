@@ -88,4 +88,24 @@ class ListSpec extends AnyFunSpec {
       assert(expected == List.dropWhile(input, f))
     }
   }
+
+  describe("EXERCISE3.6") {
+    it("should be List(1, 2, 3)") {
+      val input    = List(1, 2, 3, 4)
+      val expected = List(1, 2, 3)
+      assert(expected == List.init(input))
+    }
+
+    it("should be List()") {
+      val input    = List(1)
+      val expected = List()
+      assert(expected == List.init(input))
+    }
+
+    it("should be List() If List is empty") {
+      val input    = List()
+      val expected = List()
+      assert(expected == List.init(input))
+    }
+  }
 }
