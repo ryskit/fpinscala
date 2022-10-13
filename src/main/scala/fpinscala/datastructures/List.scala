@@ -57,9 +57,18 @@ object List {
   @scala.annotation.tailrec
   def drop[A](l: List[A], n: Int): List[A] =
     l match {
-      case Nil           => Nil
-      case c if 0 >= n   => c
-      case Cons(_, tail) => drop(tail, n - 1)
+      case Nil            => Nil
+      case list if 0 >= n => list
+      case Cons(_, tail)  => drop(tail, n - 1)
+    }
+
+  // EXERCISE3.5
+  // 述語とマッチする場合に限り、Listからその要素までの要素を削除するdropWhileを実装せよ。
+  @scala.annotation.tailrec
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
+    l match {
+      case Cons(h, tail) if f(h) => dropWhile(tail, f)
+      case list                  => list
     }
 
 }
