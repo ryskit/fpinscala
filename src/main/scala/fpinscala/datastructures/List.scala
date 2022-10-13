@@ -16,6 +16,10 @@ case class Cons[+A](head: A, tail: List[A]) extends List[A]
 //}
 
 object List {
+  def apply[A](as: A*): List[A] =
+    if (as.isEmpty) Nil
+    else Cons(as.head, apply(as.tail: _*))
+
   def sum(ints: List[Int]): Int = ints match {
     case Nil         => 0
     case Cons(x, xs) => x + sum(xs)
@@ -32,22 +36,32 @@ object List {
   // ListがNilである場合、実装上の選択肢として他に何があるか。この質問については、次章で再び取り上げる。
   //
   // Nilの場合はNilを返すでも良さそう
+  // ScalaのListのtailの実装では、java.lang.UnsupportedOperationException: tail of empty listがスローされる
   def tail[A](l: List[A]): List[A] = l match {
-//    case Nil => Nil
-    case Nil => throw new RuntimeException("tail of empty list")
+    //    case Nil => Nil
+    case Nil           => throw new RuntimeException("tail of empty list")
     case Cons(_, tail) => tail
   }
 
   // EXERCISE3.3
   // EXERCISE3.2と同じ考え方に基づいて、Listの最初の要素を別の値と置き換えるsetHead関数を実装せよ。
   def setHead[A](l: List[A], x: A): List[A] = l match {
-    case Nil => throw new RuntimeException("setHead of empty list")
+    case Nil           => throw new RuntimeException("setHead of empty list")
     case Cons(_, tail) => Cons(x, tail)
   }
 
-  def apply[A](as: A*): List[A] =
-    if (as.isEmpty) Nil
-    else Cons(as.head, apply(as.tail: _*))
+  // EXERCISE3.4
+  // tailを一般化して、リストの先頭からn個の要素を削除するdropという関数に書き換えよ。
+  // この関数の実行時間は削除する要素の数に飲み比例することに注意。
+  // List全体のコピーを作成する必要はない。
+  @scala.annotation.tailrec
+  def drop[A](l: List[A], n: Int): List[A] =
+    l match {
+      case Nil           => Nil
+      case c if 0 >= n   => c
+      case Cons(_, tail) => drop(tail, n - 1)
+    }
+
 }
 
 object Main extends App {
@@ -60,6 +74,5 @@ object Main extends App {
     case _                                     => 101
   }
   println(x)
-
 
 }
