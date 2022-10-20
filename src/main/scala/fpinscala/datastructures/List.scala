@@ -73,6 +73,12 @@ object List {
       case list                  => list
     }
 
+  def append[A](a1: List[A], a2: List[A]): List[A] =
+    a1 match {
+      case Nil        => a2
+      case Cons(h, t) => Cons(h, append(t, a2))
+    }
+
   // EXERCISE3.6
   // Listの末尾を除くすべての要素で構成されたListを返すinit関数を実装せよ。
   // List(1, 2, 3, 4)が与えられた場合、initはList(1, 2, 3)を返す。
@@ -107,10 +113,16 @@ object List {
       case Cons(x, xs) => f(x, foldRight(xs, z)(f))
     }
 
+  @scala.annotation.tailrec
+  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B = l match {
+    case Nil        => z
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
+
   def product2(ns: List[Double]) =
     foldRight(ns, 1.0)(_ * _)
 
-  // List(1.0, 2.0, 3.0)
+  // foldRight(List(1.0, 2.0, 3.0), 1.0)(f)
   // f(1.0, foldRight(List(2.0, 3.0), 1.0)(f))
   // f(1.0, f(2.0, foldRight(List(3.0), 1.0)(f)))
   // f(1.0, f(2.0, f(3.0, foldRight(Nil, 1.0)(f)))
@@ -120,6 +132,14 @@ object List {
   // f(1.0, 6.0)
   // 6.0
 
+  // foldLeft(List(1.0, 2.0, 3.0), 1.0)(f)
+  // foldLeft((2.0, 3.0), 1.0)(f)
+  // foldLeft((2.0, 3.0), f(1.0, 2.0))(f)
+  // foldLeft((3.0), 2.0)(f)
+  // foldLeft((), f(2.0, 3.0))(f)
+  // foldLeft((), 6.0)(f)
+  // 6.0
+
   // EXERCISE3.7
   // 1) foldRightを使って実装されたproductは、0.0を検出した場合に、直ちに再帰を中止して0.0を返せるか。 その理由を説明せよ。
   // 2) 大きなリストでfoldRightを呼び出した場合の短絡の仕組みについて検討せよ。
@@ -127,6 +147,27 @@ object List {
   // 1) ただちに再帰を中止して0.0を返せない。
   // 理由は、fが実行される前にすべての要素を辿ってしまうため。
   // 2) このfoldRightは末尾再帰で実装されていないため、コールスタックが溢れてスタックオーバーフローが発生すると思う
+
+  // EXERCISE3.8
+  // foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_ _))のように, NilおよびCons自体をfoldRightに渡した場合はどうなるか。
+  // これがfoldRightとListのデータコンストラクタとの関係について何を表していると思うか。
+  //
+  // 出力結果: Cons(1,Cons(2,Cons(3,Nil)))
+  // ※　Nil: List[Int]としているのは、foldRightのB型がNilだとList[Nothing]と推定して type mismatch errorが発生する
+  //
+  // 処理過程
+  //
+  // foldRight(Cons(1,Cons(2,Cons(3,Nil))), Nil: List[Int])(Cons(_ _))
+  // Cons(1, foldRight(Cons(2,Cons(3, Nil)), Nil: List[Int])(Cons(_, _)))
+  // Cons(1, Cons(2, foldRight(Cons(3, Nil), Nil: List[Int])(Cons(_, _))))
+  // Cons(1, Cons(2, Cons(3, foldRight(Nil, Nil: List[Int])(Cons(_, _)))))
+  // Cons(1, Cons(2, Cons(3, Nil)))
+  //
+  // def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+  //    as match {
+  //      case Nil         => z
+  //      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //    }
 }
 
 object Main extends App {
@@ -140,4 +181,16 @@ object Main extends App {
   }
   println(x)
 
+  val ans = List.foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _))
+  // def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+  //    as match {
+  //      case Nil         => z
+  //      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //    }
+  //
+  // List.foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _))
+  // List(1, 2, 3) = Cons(1,Cons(2,Cons(3,Nil)))
+  //
+  //
+  println(ans)
 }
