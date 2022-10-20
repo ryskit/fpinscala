@@ -110,24 +110,37 @@ class ListSpec extends AnyFunSpec {
     }
   }
 
-  describe("EXERCISE3.6`") {
-    it("should be List(1, 2, 3)") {
-      val input    = List(1, 2, 3, 4)
-      val expected = List(1, 2, 3)
-      assert(List.init2(input) == expected)
+  describe("EXERCISE3.9") {
+    it("should be length is 5") {
+      val input    = List(1, 2, 3, 4, 5)
+      val expected = 5
+      assert(List.length(input) == expected)
     }
 
-    it("should be List()") {
-      val input    = List(1)
-      val expected = List()
-      assert(List.init2(input) == expected)
+    it("should be length is -") {
+      val input    = List()
+      val expected = 0
+      assert(List.length(input) == expected)
+    }
+  }
+
+  describe("EXERCISE3.10") {
+    it("should be 15") {
+      val input    = List(1, 2, 3, 4, 5)
+      val expected = 15
+      assert(List.foldLeft(input, 0)(_ + _) == expected)
     }
 
-    it("should throw UnsupportedOperationException") {
-      val input = List()
-      assertThrows[UnsupportedOperationException] {
-        List.init2(input)
-      }
+    it("should be 0") {
+      val input    = List(1, 2, 3, 4, 5)
+      val expected = 0
+      assert(List.foldLeft(input, 0)(_ * _) == expected)
+    }
+
+    it("should be 5") {
+      val input    = Nil: List[Int]
+      val expected = 5
+      assert(List.foldLeft(input, 5)(_ + _) == expected)
     }
   }
 }

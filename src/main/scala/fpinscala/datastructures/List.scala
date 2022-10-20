@@ -113,12 +113,6 @@ object List {
       case Cons(x, xs) => f(x, foldRight(xs, z)(f))
     }
 
-  @scala.annotation.tailrec
-  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B = l match {
-    case Nil        => z
-    case Cons(h, t) => foldLeft(t, f(z, h))(f)
-  }
-
   def product2(ns: List[Double]) =
     foldRight(ns, 1.0)(_ * _)
 
@@ -168,6 +162,41 @@ object List {
   //      case Nil         => z
   //      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
   //    }
+
+  // EXERCISE3.9
+  // foldRightを使ってリストの長さを計算せよ。
+  def length[A](as: List[A]): Int =
+    foldRight(as, 0)((_, b) => b + 1)
+
+  // EXERCISE3.10
+  // このfoldRightの実装は末尾再帰ではなく、リストが大きい場合はStackOverflowErrorになってしまう。これをスタックセーフではないと言う。
+  // そうした状況であると家庭し、前章で説明した手法を使って、リスト再帰の総称関すfoldLeftを記述せよ。
+  @scala.annotation.tailrec
+  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B = l match {
+    case Nil        => z
+    case Cons(h, t) => foldLeft(t, f(z, h))(f)
+  }
+
+  // foldLeftの計算過程
+  // List(1, 2, 3)を左から右に向かって走査する
+  // foldLeft(Cons(1, Cons(2, Cons(3, Nil))), 0)(_ + _)
+  // foldLeft(Cons(2, Cons(3, Nil)), 1)(_ + _)
+  // foldLeft(Cons(3, Nil), 3)(_ + _)
+  // foldLeft(Nil, 6)(_ + _)
+  // 6
+
+  // foldRightの計算過程
+  // List(1, 2, 3)を右から左に向かって走査する
+  // f = _ + _
+  // foldRight(Cons(1, Cons(2, Cons(3, Nil))), 0)(_ + _)
+  // f(1, foldRight(Cons(2, Cons(3, Nil)), 0)(_ + _))
+  // f(1, f(2, foldRight(Cons(3, Nil), 0)(_ + _)))
+  // f(1, f(2, f(3, foldRight(Nil, 0)(_ + _)))
+  // f(1, f(2, f(3, 0)))
+  // f(1, f(2, 3 + 0))
+  // f(1, f(2, 3))
+  // f(1, 5)
+  // 6
 }
 
 object Main extends App {
@@ -193,4 +222,6 @@ object Main extends App {
   //
   //
   println(ans)
+
+  List.foldLeft(List(1, 2, 3), 0)(_ + _)
 }
