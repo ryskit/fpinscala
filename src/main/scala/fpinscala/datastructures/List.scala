@@ -197,6 +197,14 @@ object List {
   // f(1, f(2, 3))
   // f(1, 5)
   // 6
+
+  // EXERCISE3.11
+  // foldLeftを使ってsum, product, およｂリストの長さを計算する関するを記述せよ。
+  def sumL(l: List[Int]): Int = foldLeft(l, 0)(_ + _)
+
+  def productL(l: List[Double]): Double = foldLeft(l, 1.0)(_ * _)
+
+  def lengthL[A](l: List[A]): Int = foldLeft(l, 0)((acc, _) => acc + 1)
 }
 
 object Main extends App {

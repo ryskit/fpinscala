@@ -117,7 +117,7 @@ class ListSpec extends AnyFunSpec {
       assert(List.length(input) == expected)
     }
 
-    it("should be length is -") {
+    it("should be length is 0") {
       val input    = List()
       val expected = 0
       assert(List.length(input) == expected)
@@ -138,9 +138,59 @@ class ListSpec extends AnyFunSpec {
     }
 
     it("should be 5") {
-      val input    = Nil: List[Int]
-      val expected = 5
+      val input: List[Int] = Nil
+      val expected         = 5
       assert(List.foldLeft(input, 5)(_ + _) == expected)
+    }
+  }
+
+  describe("EXERCISE3.10") {
+    describe("sumL") {
+      it("should be 15") {
+        val input    = List(1, 2, 3, 4, 5)
+        val expected = 15
+        assert(List.sum(input) == expected)
+      }
+
+      it("should be 0") {
+        val input: List[Int] = Nil
+        val expected         = 0
+        assert(List.sum(input) == expected)
+      }
+    }
+
+    describe("productL") {
+      it("should be 6.0") {
+        val input    = List(1.0, 2.0, 3.0)
+        val expected = 6.0
+        assert(List.productL(input) == expected)
+      }
+
+      it("should be 1.0") {
+        val input: List[Double] = Nil
+        val expected            = 1.0
+        assert(List.productL(input) == expected)
+      }
+
+      it("should be 0.0") {
+        val input    = List(0.0, 2.0, 3.0)
+        val expected = 0.0
+        assert(List.productL(input) == expected)
+      }
+    }
+
+    describe("lengthL") {
+      it("should be length is 5") {
+        val input    = List(1, 2, 3, 4, 5)
+        val expected = 5
+        assert(List.lengthL(input) == expected)
+      }
+
+      it("should be length is 0") {
+        val input    = List()
+        val expected = 0
+        assert(List.lengthL(input) == expected)
+      }
     }
   }
 }
