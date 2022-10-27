@@ -207,4 +207,27 @@ class ListSpec extends AnyFunSpec {
       assert(List.reverse(input) == expected)
     }
   }
+
+  describe("EXERCISE3.14") {
+    it("should be List(1, 2, 3, 4, 5, 6)") {
+      val input1 = List(1, 2, 3)
+      val input2 = List(4, 5, 6)
+      val expected = List(1, 2, 3, 4, 5, 6)
+      assert(List.appendBaseFoldLeft(input1, input2) == expected)
+    }
+
+    it("should be List(1, 2, 3)") {
+      val input1 = List(1, 2, 3)
+      val input2 = List()
+      val expected = List(1, 2, 3)
+      assert(List.appendBaseFoldLeft(input1, input2) == expected)
+    }
+
+    it("should be List(1, 2, 3)`") {
+      val input1 = List()
+      val input2 = List(1, 2, 3)
+      val expected = List(1, 2, 3)
+      assert(List.appendBaseFoldLeft(input1, input2) == expected)
+    }
+  }
 }

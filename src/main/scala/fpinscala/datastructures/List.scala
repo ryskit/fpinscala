@@ -207,9 +207,27 @@ object List {
   def lengthL[A](l: List[A]): Int = foldLeft(l, 0)((acc, _) => acc + 1)
 
   // EXERCISE3.12
+  //
   def reverse[A](l: List[A]): List[A] =
     foldLeft(l, Nil: List[A])((b, a) => Cons(a, b))
 
+  // EXERCISE3.13
+  // [難問]: foldRightをベースとしてfoldLeftを記述することは可能か。その逆はどうか。
+  // foldLeftを使ってfoldRightを実装すると、foldRightを末尾再帰的に実装することが可能となり、
+  // 大きなリストでもスタックオーバーフローが発生しなくて便利です。
+  // def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+  //    as match {
+  //      case Nil         => z
+  //      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+  //    }
+  def foldLeftBaseFoldRight[A, B](l: List[A], z: B)(f: (B, A) => B): B =
+    foldRight(l, (b: B) => b)((a, bf) => b => bf(f(b, a)))(z)
+
+
+  // EXERCISE14
+  // foldLeftまたはfoldRightをベースとしてappendを実装せよ
+  def appendBaseFoldLeft[A](l1: List[A], l2: List[A]): List[A] =
+    foldLeft(List.reverse(l1), l2)((b, a) => Cons(a, b))
 }
 
 object Main extends App {
