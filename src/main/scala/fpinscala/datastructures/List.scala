@@ -205,6 +205,11 @@ object List {
   def productL(l: List[Double]): Double = foldLeft(l, 1.0)(_ * _)
 
   def lengthL[A](l: List[A]): Int = foldLeft(l, 0)((acc, _) => acc + 1)
+
+  // EXERCISE3.12
+  def reverse[A](l: List[A]): List[A] =
+    foldLeft(l, Nil: List[A])((b, a) => Cons(a, b))
+
 }
 
 object Main extends App {
@@ -229,7 +234,5 @@ object Main extends App {
   // List(1, 2, 3) = Cons(1,Cons(2,Cons(3,Nil)))
   //
   //
-  println(ans)
-
-  List.foldLeft(List(1, 2, 3), 0)(_ + _)
+  println(List.reverse(List(1, 2, 3)))
 }

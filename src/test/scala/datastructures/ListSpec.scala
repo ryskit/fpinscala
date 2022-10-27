@@ -193,4 +193,18 @@ class ListSpec extends AnyFunSpec {
       }
     }
   }
+
+  describe("EXERCISE3.12") {
+    it("should be List(3, 2, 1)") {
+      val input = List(1, 2, 3)
+      val expected = List(3, 2, 1)
+      assert(List.reverse(input) == expected)
+    }
+
+    it("should be List()") {
+      val input = List()
+      val expected = List()
+      assert(List.reverse(input) == expected)
+    }
+  }
 }
