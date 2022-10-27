@@ -220,8 +220,31 @@ object List {
   //      case Nil         => z
   //      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
   //    }
+  // List(1, 2, 3)を右から左に向かって走査する
+  // f = _ + _
+  // foldRight(Cons(1, Cons(2, Cons(3, Nil))), 0)(_ + _)
+  // f(1, foldRight(Cons(2, Cons(3, Nil)), 0)(_ + _))
+  // f(1, f(2, foldRight(Cons(3, Nil), 0)(_ + _)))
+  // f(1, f(2, f(3, foldRight(Nil, 0)(_ + _)))
+  // f(1, f(2, f(3, 0)))
+  // f(1, f(2, 3 + 0))
+  // f(1, f(2, 3))
+  // f(1, 5)
+  // 最後にzを渡している
   def foldLeftBaseFoldRight[A, B](l: List[A], z: B)(f: (B, A) => B): B =
-    foldRight(l, (b: B) => b)((a, bf) => b => bf(f(b, a)))(z)
+    foldRight(l, (b: B) => b) { (a, g) =>
+      b => g(f(b, a))
+    }(z)
+
+  // foldLeftBaseFoldRight(Cons(1, Cons(2, Cons(3, Nil))), 0)(_ + _)
+  // foldRight(Cons(1, Cons(2, Cons(3, Nil))), Int => Int)(_ + _)(0)
+  // f(1, foldLeftBaseFoldRight(Cons(2, Cons(3, Nil)), Int => Int)(_ + _))(0)
+  // f(1, f(2, foldLeftBaseFoldRight(Cons(3, Nil), Int => Int)(_ + _)))(0)
+  // f(1, f(2, f(3, foldLeftBaseFoldRight(Nil, Int => Int)(_ + _)))(0)
+
+  def foldRightBaseFoldLeft[A, B](l: List[A], z: B)(f: (A, B) => B): B =
+    foldLeft(List.reverse(l), z)((b, a) => f(a, b))
+
 
 
   // EXERCISE14
@@ -253,4 +276,6 @@ object Main extends App {
   //
   //
   println(List.reverse(List(1, 2, 3)))
+
+  println(List.foldLeftBaseFoldRight(List(1, 2, 3), 0)(_ + _))
 }
