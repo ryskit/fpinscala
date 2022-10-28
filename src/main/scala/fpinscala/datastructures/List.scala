@@ -231,26 +231,32 @@ object List {
   // f(1, f(2, 3))
   // f(1, 5)
   // 最後にzを渡している
-  def foldLeftBaseFoldRight[A, B](l: List[A], z: B)(f: (B, A) => B): B =
-    foldRight(l, (b: B) => b) { (a, g) =>
-      b => g(f(b, a))
-    }(z)
+  def foldLeftBaseFoldRight[A, B](l: List[A], z: B)(f2: (B, A) => B): B =
+    foldRight(l, (b: B) => b)((a, g) => b => g(f2(b, a)))(z)
 
-  // foldLeftBaseFoldRight(Cons(1, Cons(2, Cons(3, Nil))), 0)(_ + _)
-  // foldRight(Cons(1, Cons(2, Cons(3, Nil))), Int => Int)(_ + _)(0)
-  // f(1, foldLeftBaseFoldRight(Cons(2, Cons(3, Nil)), Int => Int)(_ + _))(0)
-  // f(1, f(2, foldLeftBaseFoldRight(Cons(3, Nil), Int => Int)(_ + _)))(0)
-  // f(1, f(2, f(3, foldLeftBaseFoldRight(Nil, Int => Int)(_ + _)))(0)
+  // foldLeftBaseFoldRight(Cons(1, Cons(2, Nil)), 0)(_ + _)
+  // foldRight(Cons(1, Cons(2, Nil)), Int => Int)((a, g) => b => g(f2(b, a)))(0)
+  // f(1, foldRight(Cons(2, Nil), Int => Int)((a, g) => b => g(f2(b, a)))(0)
+  // f(1, f(2, foldRight(Nil, Int => Int)((a, g) => b => g(f2(b, a)))(0)
+  // f(1, f(2, Int => Int))(0)
+  // f(1, (2, g: Int => Int) => b => g(f2(b, a)))(0)
+  // ((1, g: Int => Int) => b => (2, g: Int => Int) => b => g(f2(b, a))))(0)
+  // ((1, b => (2, b => g(f2(b, a))))(0)
 
   def foldRightBaseFoldLeft[A, B](l: List[A], z: B)(f: (A, B) => B): B =
     foldLeft(List.reverse(l), z)((b, a) => f(a, b))
-
-
 
   // EXERCISE14
   // foldLeftまたはfoldRightをベースとしてappendを実装せよ
   def appendBaseFoldLeft[A](l1: List[A], l2: List[A]): List[A] =
     foldLeft(List.reverse(l1), l2)((b, a) => Cons(a, b))
+
+  // EXERCISE15
+  // [難問]: 複数のリストからなるリストを一つｎリストとして連結する関数を記述せよ。
+  // この関数の実行時間はすべてのリストの長さの合計に対して線形になるはずである。
+  // すでに定義した関数を使ってみること。
+  def concat[A](l: List[List[A]]): List[A] =
+    foldRightBaseFoldLeft(l, Nil: List[A])((a, b) => append(a, b))
 }
 
 object Main extends App {
@@ -275,7 +281,7 @@ object Main extends App {
   // List(1, 2, 3) = Cons(1,Cons(2,Cons(3,Nil)))
   //
   //
-  println(List.reverse(List(1, 2, 3)))
+  //  println(List.reverse(List(1, 2, 3)))
 
-  println(List.foldLeftBaseFoldRight(List(1, 2, 3), 0)(_ + _))
+  println(List.foldLeftBaseFoldRight(List(1, 2), 5)(_ + _))
 }
