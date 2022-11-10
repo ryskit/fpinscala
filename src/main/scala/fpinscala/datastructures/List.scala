@@ -278,8 +278,16 @@ object List {
     foldRightBaseFoldLeft(l, Nil: List[String])((a, b) => Cons(a.toString, b))
 
   // EXERCISE3.18
+  // リストの各要素を変更し、かつリストの構造をそのまま保つ総称関数mapを記述せよ。
+  // この関数のシグネチャは以下のとおり。
   def map[A, B](as: List[A])(f: A => B): List[B] =
     foldRightBaseFoldLeft(as, Nil: List[B])((a, b) => Cons(f(a), b))
+
+  // EXERCISE3.19
+  // 与えられた述語条件が満たされるまでリストから要素を削除するfilter関数を記述せよ。
+  // この関数を使ってList[Int]から奇数をすべて削除せよ。
+  def filter[A](as: List[A])(f: A => Boolean): List[A] =
+    foldRightBaseFoldLeft(as, Nil: List[A])((a, b) => if (f(a)) b else Cons(a, b))
 
 }
 
