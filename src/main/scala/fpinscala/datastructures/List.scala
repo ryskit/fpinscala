@@ -264,6 +264,23 @@ object List {
   // すでに定義した関数を使ってみること。
   def concat[A](l: List[List[A]]): List[A] =
     foldRightBaseFoldLeft(l, Nil: List[A])((a, b) => append(a, b))
+
+  // EXERCISE3.16
+  // 各要素に1を足すことで整数のリストを変換する関数を記述せよ。
+  // 注意: これは新しいListを返す純粋関数になるはずである
+  def plusOne(l: List[Int]): List[Int] =
+    foldRightBaseFoldLeft(l, Nil: List[Int])((a, b) => Cons(a + 1, b))
+
+  // EXERCISE3.17
+  // List[Double]の各値をStringに変換する関数を記述せよ。
+  // d.toStringという式を使ってd: DoubleをStringに変換できる
+  def doubleToString(l: List[Double]): List[String] =
+    foldRightBaseFoldLeft(l, Nil: List[String])((a, b) => Cons(a.toString, b))
+
+  // EXERCISE3.18
+  def map[A, B](as: List[A])(f: A => B): List[B] =
+    foldRightBaseFoldLeft(as, Nil: List[B])((a, b) => Cons(f(a), b))
+
 }
 
 object Main extends App {

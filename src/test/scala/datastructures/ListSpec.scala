@@ -244,4 +244,34 @@ class ListSpec extends AnyFunSpec {
       assert(List.concat(input) == expected)
     }
   }
+
+  describe("EXERCISE3.16") {
+    it("should be List(2, 3, 4)") {
+      val input = List(1, 2, 3)
+      val expected = List(2, 3, 4)
+      assert(List.plusOne(input) === expected)
+    }
+  }
+
+  describe("EXERCISE3.17") {
+    it("should be List('1.0', '2.0', '3.0')") {
+      val input = List(1.0, 2.0, 3.0)
+      val expected = List("1.0", "2.0", "3.0")
+      assert(List.doubleToString(input) === expected)
+    }
+  }
+
+  describe("EXERCISE3.18") {
+    it("should be List(2, 3, 4)") {
+      val input = List(1, 2, 3)
+      val expected = List(2, 3, 4)
+      assert(List.map(input)(_ + 1) === expected)
+    }
+
+    it("should be List('1.0', '2.0', '3.0')") {
+      val input = List(1.0, 2.0, 3.0)
+      val expected = List("1.0", "2.0", "3.0")
+      assert(List.map(input)(_.toString) === expected)
+    }
+  }
 }
