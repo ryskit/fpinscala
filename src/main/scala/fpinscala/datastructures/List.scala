@@ -234,11 +234,15 @@ object List {
   def foldLeftBaseFoldRight[A, B](l: List[A], z: B)(f2: (B, A) => B): B =
     foldRight(l, (b: B) => b)((a, g) => b => g(f2(b, a)))(z)
 
+  // g = Int => Int
+  // f2 = Int + Int
+  // f = (a, g) => b => g(f2(b, a))
   // foldLeftBaseFoldRight(Cons(1, Cons(2, Nil)), 0)(_ + _)
   // foldRight(Cons(1, Cons(2, Nil)), Int => Int)((a, g) => b => g(f2(b, a)))(0)
   // f(1, foldRight(Cons(2, Nil), Int => Int)((a, g) => b => g(f2(b, a)))(0)
   // f(1, f(2, foldRight(Nil, Int => Int)((a, g) => b => g(f2(b, a)))(0)
-  // f(1, f(2, Int => Int))(0)
+  // f(1, f(2, g: Int => Int))(0)
+  // 上手く計算式を書けなかった。。。。
   // f(1, (2, g: Int => Int) => b => g(f2(b, a)))(0)
   // ((1, g: Int => Int) => b => (2, g: Int => Int) => b => g(f2(b, a))))(0)
   // ((1, b => (2, b => g(f2(b, a))))(0)
@@ -250,6 +254,9 @@ object List {
   // foldLeftまたはfoldRightをベースとしてappendを実装せよ
   def appendBaseFoldLeft[A](l1: List[A], l2: List[A]): List[A] =
     foldLeft(List.reverse(l1), l2)((b, a) => Cons(a, b))
+
+  def appendBaseFoldRight[A](l1: List[A], l2: List[A]): List[A] =
+    foldRight(l1, l2)((a, b) => Cons(a, b))
 
   // EXERCISE15
   // [難問]: 複数のリストからなるリストを一つｎリストとして連結する関数を記述せよ。

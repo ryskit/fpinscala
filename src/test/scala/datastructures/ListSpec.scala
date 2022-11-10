@@ -237,5 +237,11 @@ class ListSpec extends AnyFunSpec {
       val expected = List(1, 2, 3, 4, 5, 6)
       assert(List.concat(input) == expected)
     }
+
+    it("should be List(1, 2, 3, 4, 5, 6)`") {
+      val input    = List(List(1, 2), List(3, 4), List(5, 6), Nil)
+      val expected = List(1, 2, 3, 4, 5, 6)
+      assert(List.concat(input) == expected)
+    }
   }
 }
