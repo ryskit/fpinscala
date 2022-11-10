@@ -279,13 +279,21 @@ class ListSpec extends AnyFunSpec {
     it("should be List(2, 4, 6)") {
       val input = List(1, 2, 3, 4, 5, 6)
       val expected = List(2, 4, 6)
-      assert(List.filter(input)(_ % 2 == 1) === expected)
+      assert(List.filter(input)(_ % 2 == 0) === expected)
     }
 
     it("should be List(aaa, bbb)") {
       val input = List("aaa", "bbb", "ccc")
       val expected = List("aaa", "bbb")
-      assert(List.filter(input)(_.contains("c")) === expected)
+      assert(List.filter(input)(x => x.contains("a") || x.contains("b")) === expected)
+    }
+  }
+
+  describe("EXERCISE3.20") {
+    it("should be List(1, 1, 2, 2, 3, 3)") {
+      val input = List(1, 2, 3)
+      val expected = List(1, 1, 2, 2, 3, 3)
+      assert(List.flatMap(input)(i => List(i, i)) === expected)
     }
   }
 }
