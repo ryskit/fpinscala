@@ -287,14 +287,14 @@ object List {
   // 与えられた述語条件が満たされるまでリストから要素を削除するfilter関数を記述せよ。
   // この関数を使ってList[Int]から奇数をすべて削除せよ。
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
-    foldRightBaseFoldLeft(as, Nil: List[A])((a, b) => if (f(a)) Cons(a,b) else b)
+    foldRightBaseFoldLeft(as, Nil: List[A])((a, b) => if (f(a)) Cons(a, b) else b)
 
   // EXERCISE3.20
   // mapと同じような働きをするflatMap関数を記述せよ。
   // この関数は単一の結果ではなくリストを返し、そのリストは最終的な結果のリストに挿入されなければならない。
   // この関数のシグネチャは以下のとおり。
   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
-    concat(List.map(as)(f(_)))
+    concat(map(as)(f))
 
 }
 
