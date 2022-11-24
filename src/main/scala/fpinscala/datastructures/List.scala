@@ -293,8 +293,45 @@ object List {
   // mapと同じような働きをするflatMap関数を記述せよ。
   // この関数は単一の結果ではなくリストを返し、そのリストは最終的な結果のリストに挿入されなければならない。
   // この関数のシグネチャは以下のとおり。
+  // flatMap = map + flatten
+  // val result = Option(Option(1))
+  // if (result.isExists) {
+  //   if (result.isExists) {
+  //      println()
+  //   }
+  // }
+  //
+  // result.flatMap(
+  // f = i => List(i, i)
+  // List(1, 2, 3)
+  // map = List(List(1, 1), List(2, 2), List(3, 3))
+  // List(1, 1, 2, 2, 3, 3)
   def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
     concat(map(as)(f))
+
+  // EXERCISE3.21
+  // flatMapを使ってfilterを実装せよ。
+  def filterViaFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)(x => if (f(x)) List(x) else Nil)
+
+  // EXERCISE3.22
+  // リストを2つ受け取り、対応する要素同士を足し合わせて新しいリストを生成する関数を記述せよ。
+  // たとえば、List(1, 2, 3)とList(4, 5, 6)は、List(5, 7, 9)になる。
+  def sumEachElements(l1: List[Int], l2: List[Int]): List[Int] =
+    (l1, l2) match {
+      case (Nil, _)                     => Nil
+      case (_, Nil)                     => Nil
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, sumEachElements(t1, t2))
+    }
+
+  // EXERCISE3.23
+  // EXERCISE3.22で作成した関数を、整数または加算に限定されないように一般化せよ。
+  // 一般化された関数にはzipWithという名前をつけること
+  def zipWith[A, B, C](l1: List[A], l2: List[B])(f: (A, B) => C): List[C] = (l1, l2) match {
+    case (Nil, _)                     => Nil
+    case (_, Nil)                     => Nil
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
+  }
 
 }
 

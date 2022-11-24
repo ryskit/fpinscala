@@ -296,4 +296,43 @@ class ListSpec extends AnyFunSpec {
       assert(List.flatMap(input)(i => List(i, i)) === expected)
     }
   }
+
+  describe("EXERCISE3.21") {
+    it("should be List(2, 4, 6)") {
+      val input    = List(1, 2, 3, 4, 5, 6)
+      val expected = List(2, 4, 6)
+      assert(List.filterViaFlatMap(input)(_ % 2 == 0) === expected)
+    }
+
+    it("should be List(aaa, bbb)") {
+      val input    = List("aaa", "bbb", "ccc")
+      val expected = List("aaa", "bbb")
+      assert(List.filterViaFlatMap(input)(x => x.contains("a") || x.contains("b")) === expected)
+    }
+  }
+
+  describe("EXERCISE3.22") {
+    it("should be List(5, 7, 9)") {
+      val input1   = List(1, 2, 3)
+      val input2   = List(4, 5, 6)
+      val expected = List(5, 7, 9)
+      assert(List.sumEachElements(input1, input2) === expected)
+    }
+  }
+
+  describe("EXERCISE3.23") {
+    it("should be List(5, 7, 9)") {
+      val input1   = List(1, 2, 3)
+      val input2   = List(4, 5, 6)
+      val expected = List(5, 7, 9)
+      assert(List.zipWith(input1, input2)(_ + _) === expected)
+    }
+
+    it("should be List(\"14\", \"25\", \"36\")") {
+      val input1   = List(1, 2, 3)
+      val input2   = List("4", "5", "6")
+      val expected = List("14", "25", "36")
+      assert(List.zipWith(input1, input2)(_ + _) === expected)
+    }
+  }
 }
