@@ -333,6 +333,28 @@ object List {
     case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
   }
 
+  // EXERCISE3.24
+  // 例として、Listに別のListがサブシーケンスとしてふくまれているかどうかを調べるhasSubsequenceを実装せよ。
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+    def go(sup: List[A], sub: List[A], previous: Boolean): Boolean = {
+      (sup, sub) match {
+        case (Nil, _)                                             => previous
+        case (_, Nil)                                             => previous
+        case (Cons(supH, supT), Cons(subH, _)) if supH != subH    => go(supT, sub, false)
+        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH => keepSuccess(supT, subT, true)
+      }
+    }
+
+    def keepSuccess(sup: List[A], sub: List[A], previous: Boolean): Boolean = {
+      (sup, sub) match {
+        case (Nil, _)                                                         => previous
+        case (_, Nil)                                                         => previous
+        case (Cons(supH, supT), Cons(subH, _)) if supH != subH || !previous   => keepSuccess(supT, sub, false)
+        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH && previous => keepSuccess(supT, subT, true)
+      }
+    }
+    go(sup, sub, false)
+  }
 }
 
 object Main extends App {

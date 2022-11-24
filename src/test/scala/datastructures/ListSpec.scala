@@ -335,4 +335,24 @@ class ListSpec extends AnyFunSpec {
       assert(List.zipWith(input1, input2)(_ + _) === expected)
     }
   }
+
+  describe("EXERCISE3.24") {
+    it("true") {
+      val sup = List(1, 2, 3, 4)
+      assert(List.hasSubsequence(sup, List(1, 2)) === true)
+      assert(List.hasSubsequence(sup, List(2, 3, 4)) === true)
+      assert(List.hasSubsequence(sup, List(2, 3)) === true)
+      assert(List.hasSubsequence(sup, List(4)) === true)
+    }
+
+    it("false") {
+      val sup = List(1, 2, 3, 4)
+      assert(List.hasSubsequence(sup, List(1, 2, 5)) === false)
+      assert(List.hasSubsequence(sup, List(3, 5)) === false)
+      assert(List.hasSubsequence(sup, List(1, 3)) === false)
+      assert(List.hasSubsequence(sup, List(2, 4)) === false)
+      assert(List.hasSubsequence(sup, Nil) === false)
+      assert(List.hasSubsequence(Nil, List(2, 4)) === false)
+    }
+  }
 }
