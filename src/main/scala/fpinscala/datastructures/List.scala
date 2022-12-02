@@ -341,16 +341,16 @@ object List {
         case (Nil, _)                                             => previous
         case (_, Nil)                                             => previous
         case (Cons(supH, supT), Cons(subH, _)) if supH != subH    => go(supT, sub, false)
-        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH => keepSuccess(supT, subT, true)
+        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH => goSuccess(supT, subT, true)
       }
     }
 
-    def keepSuccess(sup: List[A], sub: List[A], previous: Boolean): Boolean = {
+    def goSuccess(sup: List[A], sub: List[A], previous: Boolean): Boolean = {
       (sup, sub) match {
         case (Nil, _)                                                         => previous
         case (_, Nil)                                                         => previous
-        case (Cons(supH, supT), Cons(subH, _)) if supH != subH || !previous   => keepSuccess(supT, sub, false)
-        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH && previous => keepSuccess(supT, subT, true)
+        case (Cons(supH, supT), Cons(subH, _)) if supH != subH || !previous   => goSuccess(supT, sub, false)
+        case (Cons(supH, supT), Cons(subH, subT)) if supH == subH && previous => goSuccess(supT, subT, true)
       }
     }
     go(sup, sub, false)
