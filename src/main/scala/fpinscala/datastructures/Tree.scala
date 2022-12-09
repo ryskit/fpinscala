@@ -15,4 +15,13 @@ object Tree {
       case Branch(left, right) => 1 + size(left) + size(right)
     }
   }
+
+  // EXERCISE 3.26
+  // Tre[Int]の最大の要素を返すmaximum関数を記述せよ。
+  def maximum(tree: Tree[Int]): Int = {
+    tree match {
+      case Leaf(value)         => value
+      case Branch(left, right) => maximum(left) max maximum(right)
+    }
+  }
 }
