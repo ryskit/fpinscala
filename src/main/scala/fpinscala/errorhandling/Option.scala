@@ -46,4 +46,33 @@ object Option {
   // シーケンスの平均をm, シーケンスの各要素をxとすれば分散はmath.pow(x -m , 2)の平均となる
   def variance(xs: Seq[Double]): Option[Double] =
     mean(xs).flatMap(m => mean(xs.map(x => math.pow(x - m, 2))))
+
+  def Try[A](a: => A): Option[A] =
+    try Some(a)
+    catch { case e: Exception => None }
+
+  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
+
+  // EXERCISE 4.3
+  // 2項関数を使ってOption型の2つの値を結合する総称関数map2を記述せよ。
+  // どちらかのOption値がNoneの場合は、戻り地もNoneになる
+  // シグネチャ
+  // def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = ???
+  def map2[A, B, C](ao: Option[A], bo: Option[B])(f: (A, B) => C): Option[C] =
+    for {
+      a <- ao
+      b <- bo
+    } yield f(a, b)
+
+  def map2V2[A, B, C](ao: Option[A], bo: Option[B])(f: (A, B) => C): Option[C] =
+    ao.flatMap(a => bo.map(b => f(a, b)))
+
+  def insuranceRateQuote(age: Int, numberOfSpeedingTickets: Int): Double = ???
+
+  def parseInsuranceRateQuote(age: String, numberOfSpeedingTickets: String): Option[Double] = {
+    val optAge: Option[Int]     = Try(age.toInt)
+    val optTickets: Option[Int] = Try(numberOfSpeedingTickets.toInt)
+    map2(optAge, optTickets)(insuranceRateQuote)
+  }
+
 }
