@@ -38,4 +38,26 @@ object Either {
     catch {
       case e: Exception => Left(e)
     }
+
+  def Try[A](a: => A): Either[Exception, A] =
+    try Right(a)
+    catch {
+      case e: Exception => Left(e)
+    }
+
+  // EXERCISE4.7
+  // Eitherでsequenceとtraverseを実装せよ。
+  // これらは、エラーが発生した場合に、最初に検出されたエラーを返すものとする。
+  def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] =
+    traverse(es)(e => e)
+
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+    as.foldRight[Either[E, List[B]]](Right(Nil)) { case (v, acc) =>
+      f(v).map2(acc)(_ :: _)
+    }
+}
+
+object Main extends App {
+  val l = List(Right("a"), Right("a"), Right("a"), Right("a"), Right("a"), Left(new Exception), Right("x"))
+  println(Either.sequence(l))
 }
