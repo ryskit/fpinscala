@@ -75,4 +75,14 @@ object Option {
     map2(optAge, optTickets)(insuranceRateQuote)
   }
 
+  // EXERCISE4.4
+  // Optionのリストを一つのOptionにまとめるsequence関数を記述せよ。
+  // 新しいOptionには、元のリストに含まれているすべてのSome値のリストが含まれる。
+  // 元のリストにNoneが一つでも」含まれていた場合、この関数の結果はNoneになる。
+  // それ以外の場合は、すべての値のリストを含んだSomeになる。
+  def sequence[A](a: List[Option[A]]): Option[List[A]] =
+    a.foldRight[Option[List[A]]](Some(Nil)) { case (v, acc) =>
+      map2(v, acc)(_ :: _)
+    }
+
 }
