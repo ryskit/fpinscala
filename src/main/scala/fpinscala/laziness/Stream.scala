@@ -1,5 +1,7 @@
 package fpinscala.laziness
 
+import fpinscala.laziness.Stream._
+
 import scala.annotation.tailrec
 
 trait Stream[+A] {
@@ -17,6 +19,14 @@ trait Stream[+A] {
       case Empty      => acc
     }
     go(this, List.empty)
+  }
+
+  // EXERCISE5.2
+  // Streamの先頭からn個の要素を取り出す関数take(n)と、Streamの」先頭からnこの要素を好き府するdrop(n)関数を記述せよ
+  def take(n: Int): Stream[A] = this match {
+    case Cons(h, t) if n > 1 => cons(h(), t().take(n - 1))
+    case Cons(h, _) if n == 1 => cons(h(), empty)
+    case _ => empty
   }
 }
 
