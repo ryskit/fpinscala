@@ -65,6 +65,12 @@ trait Stream[+A] {
       if (p(a)) cons(a, b)
       else empty
     }
+
+  // EXERCISE5.5
+  def headOptionUseFoldRight(): Option[A] =
+    foldRight(Option.empty[A]) { (a, _) =>
+      Some(a)
+    }
 }
 
 case object Empty                                   extends Stream[Nothing]

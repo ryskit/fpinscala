@@ -17,7 +17,7 @@ class StreamSpec extends AnyFunSpec {
     }
   }
 
-  describe("EXERCISE5.7") {
+  describe("EXERCISE5.4") {
     it("should be true if  number is greater than 0") {
       assert(Stream(1, 2, 3, 4, 5).forAll(_ > 0))
     }
@@ -27,7 +27,7 @@ class StreamSpec extends AnyFunSpec {
     }
   }
 
-  describe("EXERCISE5.8") {
+  describe("EXERCISE5.5") {
     it("should get 2, 4, 6, 8") {
       val expected = Stream(2, 4, 6, 8)
       assert(expected.toList == Stream(2, 4, 6, 8, 11).takeWhileUseFoldRight(_ % 2 == 0).toList)
@@ -36,6 +36,18 @@ class StreamSpec extends AnyFunSpec {
     it("should get 2, 4, 6, 8, 10") {
       val expected = Stream(2, 4, 6, 8, 10)
       assert(expected.toList == Stream(2, 4, 6, 8, 10).takeWhileUseFoldRight(_ % 2 == 0).toList)
+    }
+  }
+
+  describe("EXERCISE5.6") {
+    it("should be Some(1)") {
+      val expected = Some(1)
+      assert(expected == Stream(1, 2, 3).headOptionUseFoldRight())
+    }
+
+    it("should be None") {
+      val expected = None
+      assert(expected == Stream.empty.headOptionUseFoldRight())
     }
   }
 }
