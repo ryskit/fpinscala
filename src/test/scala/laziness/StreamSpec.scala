@@ -50,4 +50,18 @@ class StreamSpec extends AnyFunSpec {
       assert(expected == Stream.empty.headOptionUseFoldRight())
     }
   }
+
+  describe("EXERCISE5.7") {
+    describe("map") {
+      it("should be Stream(2, 4, 6, 8, 10)") {
+        val expected = Stream(2, 4, 6, 8, 10)
+        assert(expected.toList == Stream(1, 2, 3, 4, 5).map(_ * 2).toList)
+      }
+    }
+
+    describe("filter") {
+      val expected = Stream(2, 4)
+      assert(expected.toList == Stream(1, 2, 3, 4, 5).filter(_ % 2 == 0).toList)
+    }
+  }
 }

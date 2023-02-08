@@ -60,16 +60,29 @@ trait Stream[+A] {
       p(a) && b
     }
 
+  // EXERCISE5.5
   def takeWhileUseFoldRight(p: A => Boolean): Stream[A] =
     foldRight(empty[A]) { (a, b) =>
       if (p(a)) cons(a, b)
       else empty
     }
 
-  // EXERCISE5.5
+  // EXERCISE5.6
   def headOptionUseFoldRight(): Option[A] =
     foldRight(Option.empty[A]) { (a, _) =>
       Some(a)
+    }
+
+  // EXERCISE5.7
+  def map[B](f: A => B): Stream[B] =
+    foldRight(empty[B]) { (a, b) =>
+      cons(f(a), b)
+    }
+
+  def filter(f: A => Boolean): Stream[A] =
+    foldRight(empty[A]) { (a, b) =>
+      if (f(a)) cons(a, b)
+      else b
     }
 }
 
