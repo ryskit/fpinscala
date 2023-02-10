@@ -24,9 +24,9 @@ trait Stream[+A] {
   // EXERCISE5.2
   // Streamの先頭からn個の要素を取り出す関数take(n)と、Streamの」先頭からnこの要素を好き府するdrop(n)関数を記述せよ
   def take(n: Int): Stream[A] = this match {
-    case Cons(h, t) if n > 1 => cons(h(), t().take(n - 1))
+    case Cons(h, t) if n > 1  => cons(h(), t().take(n - 1))
     case Cons(h, _) if n == 1 => cons(h(), empty)
-    case _ => empty
+    case _                    => empty
   }
 
   // finalにしている理由は、サブクラスでオーバーライドすると末尾再帰ではなくなる可能性があるため、
@@ -34,23 +34,23 @@ trait Stream[+A] {
   @tailrec
   final def drop(n: Int): Stream[A] = this match {
     case Cons(_, t) if n > 0 => t().drop(n - 1)
-    case _ => this
+    case _                   => this
   }
 
   // EXERCISE5.3
   def takeWhile(p: A => Boolean): Stream[A] = this match {
     case Cons(h, t) if p(h()) => cons(h(), t().takeWhile(p))
-    case _ => empty
+    case _                    => empty
   }
 
   def exists(p: A => Boolean): Boolean = this match {
     case Cons(h, t) => p(h()) || t().exists(p)
-    case _ => false
+    case _          => false
   }
 
   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
     case Cons(h, t) => f(h(), t().foldRight(z)(f))
-    case _ => z
+    case _          => z
   }
 
   // EXERCISE5.4
@@ -83,6 +83,16 @@ trait Stream[+A] {
     foldRight(empty[A]) { (a, b) =>
       if (f(a)) cons(a, b)
       else b
+    }
+
+  def append[B >: A](other: => Stream[B]): Stream[B] =
+    foldRight(other) { (a, b) =>
+      cons(a, b)
+    }
+
+  def flatMap[B](f: A => Stream[B]): Stream[B] =
+    foldRight(empty[B]) { (a, b) =>
+      f(a).append(b)
     }
 }
 

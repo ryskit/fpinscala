@@ -3,7 +3,6 @@ package laziness
 import org.scalatest.funspec.AnyFunSpec
 import fpinscala.laziness.Stream
 
-
 class StreamSpec extends AnyFunSpec {
   describe("EXERCISE5.3") {
     it("should get 2, 4, 6, 8") {
@@ -62,6 +61,16 @@ class StreamSpec extends AnyFunSpec {
     describe("filter") {
       val expected = Stream(2, 4)
       assert(expected.toList == Stream(1, 2, 3, 4, 5).filter(_ % 2 == 0).toList)
+    }
+
+    describe("append") {
+      val expected = Stream(1, 2, 3, 4)
+      assert(expected.toList == Stream(1, 2, 3).append(Stream(4)).toList)
+    }
+
+    describe("flatMap") {
+      val expected = Stream(2, 4, 6)
+      assert(expected.toList == Stream(1, 2, 3).flatMap(x => Stream(x * 2)).toList)
     }
   }
 }
