@@ -135,6 +135,15 @@ object Stream {
 
     go(0, 1)
   }
+
+  // EXERCISE5.11
+  // より汎用的なストリーム生成unfoldを記述せよ。
+  // この関数は、初期状態に加えて、以下の状態と、生成されるストリームの次の値を生成する関数を受け取る。
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] =
+    f(z) match {
+      case Some((a, s)) => cons(a, unfold(s)(f))
+      case None         => empty
+    }
 }
 
 object Main extends App {
