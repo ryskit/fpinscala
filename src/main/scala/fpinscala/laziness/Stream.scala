@@ -94,6 +94,10 @@ trait Stream[+A] {
     foldRight(empty[B]) { (a, b) =>
       f(a).append(b)
     }
+
+  def find(p: A => Boolean): Option[A] =
+    filter(p).headOption
+
 }
 
 case object Empty                                   extends Stream[Nothing]
@@ -111,6 +115,12 @@ object Stream {
   def apply[A](as: A*): Stream[A] =
     if (as.isEmpty) empty
     else cons(as.head, apply(as.tail: _*))
+
+  val ones: Stream[Int] = Stream.cons(1, ones)
+
+  // EXERCISE5.8
+  // consを少し一般化し、指定された値の無限ストリームを返すconstant関数を記述せよ。
+  def constant[A](a: A): Stream[A] = cons(a, constant(a))
 }
 
 object Main extends App {
