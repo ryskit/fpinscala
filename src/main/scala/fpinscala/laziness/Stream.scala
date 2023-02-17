@@ -121,6 +121,12 @@ object Stream {
   // EXERCISE5.8
   // consを少し一般化し、指定された値の無限ストリームを返すconstant関数を記述せよ。
   def constant[A](a: A): Stream[A] = cons(a, constant(a))
+
+  // EXERCISE5.9
+  // nで始まってn+1, n+2と続く整数の無限ストリームを生成する関数を記述せよ
+  def from(n: Int): Stream[Int] =
+    cons(n, from(n + 1))
+
 }
 
 object Main extends App {
