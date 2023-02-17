@@ -127,6 +127,14 @@ object Stream {
   def from(n: Int): Stream[Int] =
     cons(n, from(n + 1))
 
+  // EXERCISE5.10
+  // フィボナッチ数列(0, 1, 1, 2, 3, 5, 8)の無限ストリームを生成するfibs関数を記述せよ。
+  def fibs(): Stream[Int] = {
+    def go(prev: Int, cur: Int): Stream[Int] =
+      cons(prev, go(cur, prev + cur))
+
+    go(0, 1)
+  }
 }
 
 object Main extends App {

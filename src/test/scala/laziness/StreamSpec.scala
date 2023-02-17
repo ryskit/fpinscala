@@ -73,4 +73,11 @@ class StreamSpec extends AnyFunSpec {
       assert(expected.toList == Stream(1, 2, 3).flatMap(x => Stream(x * 2)).toList)
     }
   }
+
+  describe("EXERCISE5.10") {
+    it("should") {
+      val expected = Stream(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)
+      assert(expected.toList == Stream.fibs().take(11).toList)
+    }
+  }
 }
