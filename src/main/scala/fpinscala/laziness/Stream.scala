@@ -144,6 +144,20 @@ object Stream {
       case Some((a, s)) => cons(a, unfold(s)(f))
       case None         => empty
     }
+
+  // EXERCISE5.12
+  // unfoldを使ってfibs, from, constant, onesを記述せよ。
+  def fibsUsingUnfold(): Stream[Int] =
+    unfold((0, 1))(s => Some(s._1, (s._2, s._1 + s._2)))
+
+  def fromUsingUnfold(n: Int): Stream[Int] =
+    unfold(n)(s => Some(s, s + 1))
+
+  def constantUsingUnfold(n: Int): Stream[Int] =
+    unfold(n)(s => Some(s, s))
+
+  def onesUsingUnfold(): Stream[Int] =
+    unfold(1)(s => Some(s, s))
 }
 
 object Main extends App {

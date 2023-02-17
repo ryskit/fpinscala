@@ -75,9 +75,39 @@ class StreamSpec extends AnyFunSpec {
   }
 
   describe("EXERCISE5.10") {
-    it("should") {
+    it("should be Stream(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)") {
       val expected = Stream(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)
       assert(expected.toList == Stream.fibs().take(11).toList)
+    }
+  }
+
+  describe("EXERCISE5.12") {
+    describe("onesUsingUnfold") {
+      it("should be Stream(1, 1, 1, 1, 1)") {
+        val expected = Stream(1, 1, 1, 1, 1)
+        assert(expected.toList == Stream.onesUsingUnfold().take(5).toList)
+      }
+    }
+
+    describe("constantUsingUnfold") {
+      it("should be Stream(1, 1, 1, 1, 1)") {
+        val expected = Stream(1, 1, 1, 1, 1)
+        assert(expected.toList == Stream.constantUsingUnfold(1).take(5).toList)
+      }
+    }
+
+    describe("fibsUsingUnfold") {
+      it("should be Stream(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)") {
+        val expected = Stream(0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55)
+        assert(expected.toList == Stream.fibsUsingUnfold().take(11).toList)
+      }
+    }
+
+    describe("fibsUsingUnfold") {
+      it("should be Stream(0, 1, 1, 2, 3, 4, 5)") {
+        val expected = Stream(0, 1, 2, 3, 4, 5)
+        assert(expected.toList == Stream.fromUsingUnfold(0).take(6).toList)
+      }
     }
   }
 }
